@@ -1,9 +1,13 @@
 import { Router } from "express";
-import { logoutController, signinController, signupController } from "../../controllers/auth.controller.js";
+import { checkAuthController, logoutController, signinController, signupController, updateProfileController } from "../../controllers/auth.controller.js";
 import { asyncHandler } from "../../utils/AsyncHandler.js";
+import { userMiddleware } from "../../middlewares/user.middleware.js";
 
 export const authRouter = Router();
 
 authRouter.post("/signup", asyncHandler(signupController));
-authRouter.get("/signin", asyncHandler(signinController));
-authRouter.get("/logout", asyncHandler(logoutController));
+authRouter.post("/signin", asyncHandler(signinController));
+authRouter.post("/logout", asyncHandler(logoutController));
+
+authRouter.put("/update-profile", userMiddleware, asyncHandler(updateProfileController));
+authRouter.get("/check", userMiddleware, asyncHandler(checkAuthController));
