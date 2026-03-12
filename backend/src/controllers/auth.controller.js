@@ -1,7 +1,16 @@
+import { signupSchema } from "../types/index.type";
+import AppError from "../utils/AppError";
+
 export const signupController = (req,res) => {
+    const { fullName, email, password } = req.body;
+    const parsedData = signupSchema.safeParse(req.body);
+    if(!parsedData) {
+        throw new AppError("Invalid Credentials", 400);
+    }
+
     res.json({
         success: true,
-        message: "signup route"
+        message: "signup successfull"
     })
 };
 console.log("SIGNIN ROUTE HIT");
